@@ -47,40 +47,67 @@ class ViewController: UIViewController {
         
         let labelList:[UILabel] = [label1,label2,label3,label4,label5,label6,label7,label8,label9]
         
-        changeLabel(labelList,words:emotionsWords)
+        for i in 0...8 {
+            let showtext = UserDefaults.standard.integer(forKey: emotionsWords[i])
+            
+            labelList[i].text = "\(emotionsWords[i]) \(showtext)"
+        }
+
+    
         
+// 처음에 저장된 count를 보여주기
+        label1.text = "\(emotionsWords[0]) \(UserDefaults.standard.integer(forKey: "행복해"))"
+        
+//        let labelList:[UILabel] = [label1,label2,label3,label4,label5,label6,label7,label8,label9]
+//        
+//        changeLabel(labelList,words:emotionsWords)
+//        
         let imageViewList:[UIImageView] = [oneImageView,twoImageView,
              threeImageView,fourImageView,fiveImageView,sixImageView,sevenImageView,eightImageView,nineImageView,
         ]
+        
         changeTag(imageViewList)
     }
 
     @IBAction func imageTapped(_ sender: UITapGestureRecognizer) {
+
+        let number = UserDefaults.standard.integer(forKey: "행복해")
+        let newNumber = number + 1
         
-    
         if let imageView = sender.view as? UIImageView{
-            
-            count[imageView.tag]  = count[imageView.tag] + 1
             
             let labelList:[UILabel] = [label1,label2,label3,label4,label5,label6,label7,label8,label9]
             
-//            for i in 0...8 {
-//                labelList[i].text = "\(emotionsWords[count[imageView.tag]]) \(count[imageView.tag])"
-//            }
-            labelList[imageView.tag].text = "\(emotionsWords[imageView.tag])\(count[imageView.tag])"
-//            label1.text = "\(emotionsWords[0])\(count[0])"
-//            label2.text = "\(emotionsWords[1])\(count[1])"
-//            label3.text = "\(emotionsWords[2])\(count[2])"
-//            label4.text = "\(emotionsWords[3])\(count[3])"
-//            label5.text = "\(emotionsWords[4])\(count[4])"
-//            label6.text = "\(emotionsWords[5])\(count[5])"
-//            label7.text = "\(emotionsWords[6])\(count[6])"
-//            label8.text = "\(emotionsWords[7])\(count[7])"
-//            label9.text = "\(emotionsWords[8])\(count[8])"
+            let tagNumber = imageView.tag
+            
+            // todo 탭한 image의 라벨만 저장된 값을 가져와서 +
+            count[tagNumber] = UserDefaults.standard.integer(forKey: emotionsWords[tagNumber]) + 1
+            
+            // set 하기
+            UserDefaults.standard.set(count[tagNumber],forKey:emotionsWords[tagNumber])
+            
+            // 보여주기
+            let resultNum = UserDefaults.standard.integer(forKey: emotionsWords[tagNumber])
+
+            labelList[tagNumber].text = "\(emotionsWords[tagNumber]) \(resultNum)"
+          
         }
         else{
+            
             print("잘못되었습니다")
         }
+        
+//        if let imageView = sender.view as? UIImageView{
+//            
+//            count[imageView.tag]  = count[imageView.tag] + 1
+//            
+//            let labelList:[UILabel] = [label1,label2,label3,label4,label5,label6,label7,label8,label9]
+//            
+//            labelList[imageView.tag].text = "\(emotionsWords[imageView.tag])\(count[imageView.tag])"
+//        }
+//        else{
+//            print("잘못되었습니다")
+//        }
        
     }
     
